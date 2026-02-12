@@ -1,8 +1,11 @@
 package main
 
 import (
+	_ "embed"
+	"encoding/json"
 	"io"
 	"log"
+	"math/rand/v2"
 	"net"
 	"net/http"
 	"os"
@@ -13,7 +16,17 @@ import (
 	"github.com/usenwep/velocity"
 )
 
+//go:embed reasons.json
+var reasonsJSON []byte
+
+var reasons []string
+
 func main() {
+	if err := json.Unmarshal(reasonsJSON, &reasons); err != nil {
+		log.Fatalf("failed to load reasons: %v", err)
+	}
+	log.Printf("loaded %d reasons", len(reasons))
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "6937"
@@ -54,26 +67,7 @@ func main() {
 	}
 
 	srv.Handle("/", func(c *velocity.Context) error {
-		c.SetHeader("content-type", "text/html")
-		return c.OK([]byte(`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Meme Server</title>
-  <meta property="og:title" content="Meme Server">
-  <meta property="og:description" content="A meme server on the new web.">
-  <meta property="og:type" content="website">
-</head>
-<body>
-  <h1>Meme Server</h1>
-  <p>A meme server on the new web.</p>
-</body>
-</html>`))
-	})
-
-	srv.Handle("/hello", func(c *velocity.Context) error {
-		return c.OK([]byte("hello from velocity"))
+		return c.OK([]byte(reasons[rand.IntN(len(reasons))]))
 	})
 
 	log.Fatal(srv.Run())
