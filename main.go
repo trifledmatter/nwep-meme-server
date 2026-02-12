@@ -2,9 +2,11 @@ package main
 
 import (
 	"log"
+	"net"
 	"os"
+	"strconv"
 
-	"github.com/usenwep/nwep-go"
+	nwep "github.com/usenwep/nwep-go"
 	"github.com/usenwep/velocity"
 )
 
@@ -17,7 +19,14 @@ func main() {
 	srv, err := velocity.New(":"+port,
 		velocity.WithKeyFile("server.key"),
 		velocity.OnStart(func(s *velocity.Server) {
-			log.Printf("node address: %s", s.URL("/"))
+			addr := s.URL("/")
+			if publicIP := os.Getenv("PUBLIC_IP"); publicIP != "" {
+				portNum, _ := strconv.Atoi(port)
+				if u, err := nwep.FormatURL(net.ParseIP(publicIP), uint16(portNum), s.NodeID(), "/"); err == nil {
+					addr = u
+				}
+			}
+			log.Printf("node address: %s", addr)
 		}),
 		velocity.WithOnConnect(func(conn *nwep.Conn) {
 			log.Printf("peer connected: %s", conn.NodeID())
