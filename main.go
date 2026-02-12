@@ -27,9 +27,13 @@ func main() {
 			if publicIP == "" {
 				publicIP = discoverPublicIP()
 			}
+			publicPort := os.Getenv("PUBLIC_PORT")
+			if publicPort == "" {
+				publicPort = port
+			}
 			if publicIP != "" {
-				log.Printf("public ip: %s", publicIP)
-				portNum, _ := strconv.Atoi(port)
+				portNum, _ := strconv.Atoi(publicPort)
+				log.Printf("public ip: %s:%s", publicIP, publicPort)
 				if u, err := nwep.FormatURL(net.ParseIP(publicIP), uint16(portNum), s.NodeID(), "/"); err == nil {
 					addr = u
 				}
