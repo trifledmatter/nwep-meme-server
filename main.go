@@ -28,10 +28,13 @@ func main() {
 				publicIP = discoverPublicIP()
 			}
 			if publicIP != "" {
+				log.Printf("public ip: %s", publicIP)
 				portNum, _ := strconv.Atoi(port)
 				if u, err := nwep.FormatURL(net.ParseIP(publicIP), uint16(portNum), s.NodeID(), "/"); err == nil {
 					addr = u
 				}
+			} else {
+				log.Printf("public ip: unknown (using local address)")
 			}
 			log.Printf("node address: %s", addr)
 		}),
