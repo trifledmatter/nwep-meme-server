@@ -1,10 +1,13 @@
 package main
 
 import (
+	"io"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	nwep "github.com/usenwep/nwep-go"
 	"github.com/usenwep/velocity"
@@ -20,7 +23,11 @@ func main() {
 		velocity.WithKeyFile("server.key"),
 		velocity.OnStart(func(s *velocity.Server) {
 			addr := s.URL("/")
-			if publicIP := os.Getenv("PUBLIC_IP"); publicIP != "" {
+			publicIP := os.Getenv("PUBLIC_IP")
+			if publicIP == "" {
+				publicIP = discoverPublicIP()
+			}
+			if publicIP != "" {
 				portNum, _ := strconv.Atoi(port)
 				if u, err := nwep.FormatURL(net.ParseIP(publicIP), uint16(portNum), s.NodeID(), "/"); err == nil {
 					addr = u
@@ -63,4 +70,21 @@ func main() {
 	})
 
 	log.Fatal(srv.Run())
+}
+
+func discoverPublicIP() string {
+	resp, err := http.Get("https://api.ipify.org")
+	if err != nil {
+		return ""
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return ""
+	}
+	ip := strings.TrimSpace(string(body))
+	if net.ParseIP(ip) == nil {
+		return ""
+	}
+	return ip
 }
