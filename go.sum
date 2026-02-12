@@ -1,0 +1,8 @@
+github.com/usenwep/nwep-go v0.0.0-20260211200111-94aa18acbfa1 h1:Npw/S/Fc5Dik18L/f8LEKBuEapNsrTOPuXbveCC0QKw=
+github.com/usenwep/nwep-go v0.0.0-20260211200111-94aa18acbfa1/go.mod h1:2vLY4Qks+bGwz9l+Yvu364JIcOspaNs/XbvkQRyKIWI=
+github.com/usenwep/nwep-go v0.0.0-20260212032203-44a2197d5c10 h1:2LHQMd6gS1Q2kOimEL5AZVh9oFnAuUv3Ebd6459mSVg=
+github.com/usenwep/nwep-go v0.0.0-20260212032203-44a2197d5c10/go.mod h1:2vLY4Qks+bGwz9l+Yvu364JIcOspaNs/XbvkQRyKIWI=
+github.com/usenwep/velocity v0.0.0-20260212030716-1c44e9d49931 h1:fWHVRabgcw3yJ7Owu66nsUMdo3fqX+S0qLjziaO+5kk=
+github.com/usenwep/velocity v0.0.0-20260212030716-1c44e9d49931/go.mod h1:98eo7cStA+0qrWT1jhwwEekd5686gygchDxUd4RQVCw=
+github.com/usenwep/velocity v0.0.0-20260212033134-7e7c8b1ec91d h1:f0q7N3HCtBbq5kKsdhZU0BIng8Fp62RNw9RaiQ4usLQ=
+github.com/usenwep/velocity v0.0.0-20260212033134-7e7c8b1ec91d/go.mod h1:zInYZuI3D0+OcEHnWpSNFf1NRylxc6fwXiPqeJgyRGY=
